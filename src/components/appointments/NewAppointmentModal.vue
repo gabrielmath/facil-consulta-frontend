@@ -72,10 +72,10 @@ async function handleSchedule() {
 </script>
 
 <template>
-  <Modal :show="open" title="Entre na sua conta" @close="open = false">
+  <Modal :show="open" title="Agendar consulta?" @close="open = false">
     <!-- Inputs -->
-    <div class="flex flex-col gap-4">
-      <div class="py-4 flex justify-between items-center">
+    <div class="flex flex-col gap-4 -mt-2">
+      <div class="pb-4 flex justify-between items-start space-x-4">
         <div class="flex flex-col space-y-0.5">
           <h2>{{ appointment.schedule.doctorName }}</h2>
           <p class="text-grayScale-3 font-semibold">{{ appointment.schedule.doctorSpecialty }}</p>
