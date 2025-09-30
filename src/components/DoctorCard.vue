@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import ScheduleCarousel from './ScheduleCarousel.vue'
 import { Icon } from '@iconify/vue'
 
+const doctor = ref({})
+
 interface Props {
+  id: number
   name: string
   specialty: string
   address: string
@@ -15,6 +19,15 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+onMounted(() => {
+  doctor.value = {
+    id: props.id,
+    name: props.name,
+    specialty: props.specialty,
+    full_address: props.address,
+  }
+})
 </script>
 
 <template>
@@ -35,7 +48,7 @@ const props = defineProps<Props>()
 
         <!-- Carrossel -->
         <div class="w-full">
-          <ScheduleCarousel :schedules="schedules" />
+          <ScheduleCarousel :doctor="doctor" :schedules="schedules" />
         </div>
       </div>
     </div>

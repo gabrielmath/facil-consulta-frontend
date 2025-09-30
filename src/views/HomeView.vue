@@ -25,6 +25,7 @@ const getListDoctors = async () => {
       <DoctorCard
         v-for="(doctor, i) in doctors"
         :key="i"
+        :id="doctor.id"
         :name="`Dr. ${doctor.name}`"
         :specialty="doctor.specialty"
         :address="doctor.full_address"

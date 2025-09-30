@@ -8,6 +8,13 @@ interface Schedule {
   time: string
 }
 
+interface Doctor {
+  id: number
+  name: string
+  specialty: string
+  full_address: string
+}
+
 interface Props {
   schedules: Record<string, Schedule[]>
   // Exemplo:
@@ -16,6 +23,7 @@ interface Props {
   //   "2025-09-30": []
   // }
   daysToShow?: number // quantidade total de dias no carrossel (ex: 14)
+  doctor: Record<string, Doctor>
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -72,6 +80,10 @@ function formatDateLocal(d: Date): string {
   const month = String(d.getMonth() + 1).padStart(2, '0')
   const day = String(d.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
+}
+
+function getDateFromClick(...date) {
+  console.log(date, props.doctor)
 }
 </script>
 
@@ -139,7 +151,12 @@ function formatDateLocal(d: Date): string {
       >
         <div class="flex flex-col gap-2 w-full items-center">
           <template v-if="day.slots.length > 0">
-            <Button variant="secondary" v-for="slot in day.slots" :key="slot.id">
+            <Button
+              variant="secondary"
+              v-for="slot in day.slots"
+              :key="slot.id"
+              @click="getDateFromClick(day.date, slot.id, slot.time)"
+            >
               {{ slot.time }}
             </Button>
           </template>
