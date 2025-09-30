@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@source "../../index.html";
+@source "../src/**/*.{vue,js,ts,jsx,tsx}";
+
+@theme {
+  /* --- Cores --- */
+  --color-grayScale-0: #FFFFFF;
+  --color-grayScale-1: #E8F2F7;
+  --color-grayScale-2: #A6B3BB;
+  --color-grayScale-3: #384143;
+  --color-grayScale-4: #1D1B20;
+
+  --color-primary-0: #E1EFFF;
+  --color-primary-1: #CAE3FF;
+  --color-primary-2: #2985F0;
+  --color-primary-3: #1F6CC7;
+
+  --color-danger-0: #FFEBED;
+  --color-danger-1: #FFCDD2;
+  --color-danger-2: #DC3545;
+  --color-danger-3: #D70D21;
+
+  /* --- Tipografia (fonts) --- */
+  --font-family-sans: "Inter", sans-serif;
+  --font-family-poppins: "Poppins", sans-serif;
+
+  /* --- Tamanhos / escalas de fonte --- */
+  /* Note: aqui você pode definir variáveis ou definir custom tokens para tamanhos */
+  --text-h1m: 21px;
+  --leading-h1m: 120%;
+  --weight-h1m: 600;
+
+  --text-h1d: 28px;
+  --leading-h1d: 120%;
+  --weight-h1d: 600;
+
+  --text-h2m: 16px;
+  --leading-h2m: 140%;
+  --weight-h2m: 600;
+
+  --text-h2d: 20px;
+  --leading-h2d: 140%;
+  --weight-h2d: 600;
+
+  --text-pm: 12px;
+  --leading-pm: 150%;
+  --weight-pm: 400;
+
+  --text-pd: 16px;
+  --leading-pd: 150%;
+  --weight-pd: 400;
+
+  --text-psm: 12px;
+  --leading-psm: 150%;
+  --weight-psm: 600;
+
+  --text-psd: 16px;
+  --leading-psd: 150%;
+  --weight-psd: 600;
+
+  --text-smm: 9px;
+  --leading-smm: 150%;
+  --weight-smm: 400;
+
+  --text-smd: 12px;
+  --leading-smd: 150%;
+  --weight-smd: 400;
+
+  --text-sms: 9px;
+  --leading-sms: 150%;
+  --weight-sms: 600;
+
+  --text-smsD: 12px;
+  --leading-smsD: 150%;
+  --weight-smsD: 600;
+}
+
+/* Base / resets ou estilos globais adicionais */
+@layer base {
+  body {
+    @apply font-family-sans text-grayScale-4 bg-grayScale-1;
+  }
+
+  h1 {
+    @apply font-family-poppins font-semibold text-h1m leading-h1m;
+    @apply md:text-h1d md:leading-h2d;
+  }
+
+  h2 {
+    @apply font-family-poppins font-semibold text-h2m leading-h2m;
+    @apply md:text-h2d md:leading-h2d;
+  }
+
+  .container {
+    @apply w-7xl py-4 mx-auto;
+  }
+}
