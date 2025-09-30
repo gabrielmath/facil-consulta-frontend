@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, defineEmits } from 'vue'
 import { Icon } from '@iconify/vue'
 import Button from '@/components/forms/Button.vue'
 
@@ -29,6 +29,10 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   daysToShow: 14, // padrão: gerar 2 semanas a partir de amanhã
 })
+
+const emit = defineEmits<{
+  (e: 'newAppointment', appointment: object)
+}>()
 
 const currentIndex = ref(0)
 
@@ -75,15 +79,33 @@ function ucFirst(text) {
   return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
-function formatDateLocal(d: Date): string {
+function formatDateLocal(d: Date, formatBr: boolean = false): string {
   const year = d.getFullYear()
   const month = String(d.getMonth() + 1).padStart(2, '0')
   const day = String(d.getDate()).padStart(2, '0')
+
+  if (formatBr) {
+    return `${day}/${month}/${year}`
+  }
+
   return `${year}-${month}-${day}`
 }
 
-function getDateFromClick(...date) {
-  console.log(date, props.doctor)
+function getDateFromClick(doctor_schedule_id: number, date: string, time: string) {
+  const dateLocal = date.split('-')
+  const appointment = {
+    doctor_id: props.doctor.id,
+    doctor_schedule_id: doctor_schedule_id,
+    schedule: {
+      doctorName: props.doctor.name,
+      doctorSpecialty: props.doctor.specialty,
+      doctorFullAddress: props.doctor.full_address,
+      date: `${dateLocal[2]}/${dateLocal[1]}/${dateLocal[0]}`,
+      time: time,
+    },
+  }
+
+  emit('newAppointment', appointment)
 }
 </script>
 
@@ -155,7 +177,7 @@ function getDateFromClick(...date) {
               variant="secondary"
               v-for="slot in day.slots"
               :key="slot.id"
-              @click="getDateFromClick(day.date, slot.id, slot.time)"
+              @click="getDateFromClick(slot.id, day.date, slot.time)"
             >
               {{ slot.time }}
             </Button>

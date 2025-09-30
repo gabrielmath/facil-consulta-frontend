@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import ScheduleCarousel from './ScheduleCarousel.vue'
 import { Icon } from '@iconify/vue'
+import { useAuthStore } from '@/stores/auth.ts'
+import { storeToRefs } from 'pinia'
+import NewAppointmentModal from '@/components/appointments/NewAppointmentModal.vue'
 
-const doctor = ref({})
+const authStore = useAuthStore()
+const { isAuthenticated } = storeToRefs(authStore)
+const doctor = ref<object>({})
+const newAppointment = ref<object>({})
+const openNewAppointmentModal = ref<boolean>(false)
 
 interface Props {
   id: number
@@ -28,6 +35,34 @@ onMounted(() => {
     full_address: props.address,
   }
 })
+
+/*const emit = defineEmits<{
+  (e: 'newAppointment', appointment: object)
+}>()*/
+
+watch(isAuthenticated, (oldValue, newValue) => {
+  if (newValue && Object.entries(newAppointment.value).length !== 0) {
+  }
+})
+
+function dataAppointment(appointment: object) {
+  newAppointment.value = appointment
+  showNewAppointmentModal()
+}
+
+function showNewAppointmentModal() {
+  openNewAppointmentModal.value = true
+}
+
+function closeNewAppointmentModal(persistDataAppointment: boolean = false) {
+  openNewAppointmentModal.value = false
+
+  if (persistDataAppointment) {
+    return
+  }
+
+  newAppointment.value = {}
+}
 </script>
 
 <template>
@@ -48,9 +83,15 @@ onMounted(() => {
 
         <!-- Carrossel -->
         <div class="w-full">
-          <ScheduleCarousel :doctor="doctor" :schedules="schedules" />
+          <ScheduleCarousel
+            :doctor="doctor"
+            :schedules="schedules"
+            @new-appointment="dataAppointment"
+          />
         </div>
       </div>
     </div>
   </div>
+
+  <NewAppointmentModal :appointment="newAppointment" :show="openNewAppointmentModal" />
 </template>

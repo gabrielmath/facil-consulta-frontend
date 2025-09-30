@@ -10,4 +10,9 @@ export default {
     const { data } = await api.get('/next-appointments')
     return data
   },
+
+  async newAppointments(payload: { doctor_id: number; doctor_schedule_id: number }) {
+    const { data } = await api.post('/appointment', payload)
+    return data
+  },
 }
