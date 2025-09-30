@@ -1,16 +1,22 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { Icon } from '@iconify/vue'
+import AppointmentRepository from '@/repositories/AppointmentsRepository.ts'
 
-defineProps<{
-  appointments: {
-    id: number
-    doctor: string
-    specialty: string
-    address: string
-    date: string
-    time: string
-  }[]
-}>()
+const appointments = ref<object>({})
+
+onMounted(async () => {
+  await getListAppointments()
+})
+
+const getListAppointments = async () => {
+  try {
+    const { data } = await AppointmentRepository.getNextAppointments()
+    appointments.value = data
+  } catch (e) {
+    console.log(e.message)
+  }
+}
 </script>
 
 <template>
@@ -25,17 +31,17 @@ defineProps<{
       class="py-4 border-t first:border-t-2 border-t-grayScale-1 flex justify-between items-center"
     >
       <div class="flex flex-col space-y-0.5">
-        <h2>{{ appointment.doctor }}</h2>
-        <p class="text-grayScale-3 font-semibold">{{ appointment.specialty }}</p>
+        <h2>{{ appointment.doctor.name }}</h2>
+        <p class="text-grayScale-3 font-semibold">{{ appointment.doctor.specialty }}</p>
         <p class="text-grayScale-3 text-sm flex items-center gap-1">
           <Icon icon="mdi:map-marker" class="w-4 h-4 text-grayScale-2" />
-          {{ appointment.address }}
+          {{ appointment.doctor.full_address }}
         </p>
       </div>
       <div class="text-sm text-grayScale-3">
         Agendada para <br />
         <span class="text-primary-2 font-medium">
-          {{ appointment.date }} às {{ appointment.time }}
+          {{ appointment.schedule.date }} às {{ appointment.schedule.time }}
         </span>
       </div>
     </div>

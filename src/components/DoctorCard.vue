@@ -22,7 +22,7 @@ const props = defineProps<Props>()
     <!-- Dados do médico -->
     <div class="container">
       <div class="w-full flex justify-between items-center">
-        <div class="w-full md:w-1/2">
+        <div class="w-full flex flex-col space-y-2">
           <h2>
             {{ name }}
           </h2>
@@ -34,7 +34,7 @@ const props = defineProps<Props>()
         </div>
 
         <!-- Carrossel -->
-        <div class="w-full md:w-1/2">
+        <div class="w-full">
           <ScheduleCarousel :schedules="schedules" />
         </div>
       </div>

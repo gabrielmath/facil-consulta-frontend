@@ -31,13 +31,15 @@ const generatedDays = computed(() => {
 
   const result: { date: string; slots: Schedule[] }[] = []
   for (let i = 0; i < props.daysToShow; i++) {
-    const d = new Date(tomorrow)
-    d.setDate(d.getDate() + i)
+    const d = new Date(tomorrow) // clona
+    d.setDate(tomorrow.getDate() + i)
 
-    const isoDate = d.toISOString().split('T')[0]
+    const localDate = new Intl.DateTimeFormat('sv-SE', {
+      timeZone: 'America/Sao_Paulo',
+    }).format(d)
     result.push({
-      date: isoDate,
-      slots: props.schedules[isoDate] ?? [],
+      date: localDate,
+      slots: props.schedules[localDate] ?? [],
     })
   }
 
@@ -64,6 +66,13 @@ function next() {
 function ucFirst(text) {
   return text.charAt(0).toUpperCase() + text.slice(1)
 }
+
+function formatDateLocal(d: Date): string {
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
 </script>
 
 <template>
@@ -76,26 +85,26 @@ function ucFirst(text) {
         class="px-2 text-primary-2 disabled:text-grayScale-2 cursor-pointer"
         :disabled="currentIndex === 0"
       >
-        <Icon icon="mdi:keyboard-arrow-left" class="w-4 h-4" />
+        <Icon icon="mdi:keyboard-arrow-left" class="w-5 h-5" />
       </button>
 
       <!-- Dias (grid de 4 colunas) -->
       <div class="grid grid-cols-4 gap-4 flex-1 text-center">
         <div
-          v-for="day in dayChunks[currentIndex]"
+          v-for="(day, i) in dayChunks[currentIndex]"
           :key="day.date"
           class="flex flex-col items-center"
         >
           <!-- Sigla do dia da semana -->
           <span class="font-sans text-grayScale-4 text-sm">
             {{
-              ucFirst(
-                new Date(day.date)
-                  .toLocaleDateString('pt-BR', {
-                    weekday: 'short',
-                  })
-                  .replace('.', ''),
-              )
+              i === 0 && currentIndex === 0
+                ? 'Amanhã'
+                : ucFirst(
+                    new Date(day.date)
+                      .toLocaleDateString('pt-BR', { weekday: 'short' })
+                      .replace('.', ''),
+                  )
             }}
           </span>
 
@@ -117,7 +126,7 @@ function ucFirst(text) {
         class="px-2 text-primary-2 disabled:text-grayScale-2 cursor-pointer disabled:cursor-auto"
         :disabled="currentIndex === dayChunks.length - 1"
       >
-        <Icon icon="mdi:keyboard-arrow-right" class="w-4 h-4" />
+        <Icon icon="mdi:keyboard-arrow-right" class="w-5 h-5" />
       </button>
     </div>
 

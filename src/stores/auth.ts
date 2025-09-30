@@ -1,31 +1,35 @@
-// stores/auth.ts
 import { defineStore } from 'pinia'
 import UserRepository from '@/repositories/UserRepository'
 
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null as null | { id: number; name: string; email: string },
+    user: null as User | null,
     token: localStorage.getItem('token') || null,
   }),
   getters: {
     isAuthenticated: (state) => !!state.token,
   },
+  persist: true,
   actions: {
-    async fetchUser() {
-      if (!this.token) return
-      try {
-        this.user = await UserRepository.getProfile()
-      } catch {
-        this.logout()
-      }
-    },
-    setToken(token: string) {
+    async login(email: string, password: string) {
+      const { token, user } = await UserRepository.login({ email, password })
       this.token = token
+      this.user = user
       localStorage.setItem('token', token)
     },
+    async fetchUser() {
+      if (!this.token) return
+      this.user = await UserRepository.getProfile()
+    },
     logout() {
-      this.user = null
       this.token = null
+      this.user = null
       localStorage.removeItem('token')
     },
   },

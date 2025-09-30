@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '@/stores/auth.ts'
 
-defineProps<{
-  user: {
-    name: string
-    email: string
-  }
-}>()
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
+
+function handleLogout() {
+  authStore.logout()
+  // se quiser redirecionar para home
+  window.location.href = '/'
+}
 </script>
 
 <template>
@@ -16,7 +20,7 @@ defineProps<{
       <h2>Minha conta</h2>
     </header>
 
-    <div class="flex justify-between items-center border-t pt-4">
+    <div class="flex justify-between items-end border-t pt-4">
       <div class="">
         <p class="font-semibold text-grayScale-4">{{ user.name }}</p>
         <p class="text-grayScale-3 text-sm">{{ user.email }}</p>
@@ -24,6 +28,7 @@ defineProps<{
 
       <button
         class="mt-4 bg-danger-0 text-danger-2 font-semibold px-6 py-2 rounded-lg hover:bg-danger-1 cursor-pointer"
+        @click="handleLogout"
       >
         Sair
       </button>

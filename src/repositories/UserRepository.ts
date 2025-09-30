@@ -1,6 +1,11 @@
 import api from '@/api/api'
 
 export default {
+  async login(payload: { email: string; password: string }) {
+    const { data } = await api.post('/login', payload)
+    return data
+  },
+
   async getProfile() {
     const { data } = await api.get('/user/profile')
     return data
