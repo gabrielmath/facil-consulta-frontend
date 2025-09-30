@@ -7,12 +7,16 @@ import AccountCard from '@/components/profiles/AccountCard.vue'
 <template>
   <div class="min-h-screen pt-2 pb-10">
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div class="lg:col-span-2 space-y-6">
+      <!-- Card da conta -->
+      <div class="order-1 lg:order-2">
+        <AccountCard />
+      </div>
+
+      <!-- Agendamentos -->
+      <div class="order-2 lg:order-1 lg:col-span-2 space-y-6">
         <UpcomingAppointments />
         <PastAppointments />
       </div>
-
-      <AccountCard />
     </div>
   </div>
 </template>
