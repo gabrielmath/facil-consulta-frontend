@@ -31,7 +31,7 @@ async function handleLogin() {
   <div class="w-full">
     <!-- Inputs -->
     <div class="flex flex-col gap-4">
-      <Input v-model="name" label="E-mail" placeholder="Digite seu nome completo" />
+      <Input v-model="name" label="Nome completo" placeholder="Digite seu nome completo" />
       <Input v-model="email" type="email" label="E-mail" placeholder="exemplo@gmail.com" />
       <Input v-model="password" label="Senha" placeholder="Digite sua senha" type="password" />
       <p v-if="errorMessage" class="text-danger-2 text-sm">{{ errorMessage }}</p>

@@ -53,7 +53,7 @@ const inputClasses = computed(() => {
       @focus="isFocused = true"
       @blur="isFocused = false"
       :class="[
-        'w-full rounded px-3 py-2 font-sans text-grayScale-4 placeholder-grayScale-2 outline-none transition-all duration-200',
+        'w-full rounded px-3 py-4 font-sans text-grayScale-4 placeholder-grayScale-2 outline-none transition-all duration-200',
         'border',
         inputClasses,
       ]"
