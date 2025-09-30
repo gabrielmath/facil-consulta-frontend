@@ -26,13 +26,6 @@ defineEmits<{
       <section class="px-6 py-6 text-grayScale-3 font-inter text-base flex-1">
         <slot />
       </section>
-
-      <!-- Footer -->
-      <footer
-        class="px-6 py-4 border-t border-grayScale-1 flex justify-between items-center text-sm"
-      >
-        <slot name="footer" />
-      </footer>
     </div>
   </div>
 </template>
