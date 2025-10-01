@@ -8,7 +8,6 @@ const { user } = storeToRefs(authStore)
 
 function handleLogout() {
   authStore.logout()
-  // se quiser redirecionar para home
   window.location.href = '/'
 }
 </script>

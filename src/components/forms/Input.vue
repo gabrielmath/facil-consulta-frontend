@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, defineEmits } from 'vue'
 
 interface Props {
   id: string
@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
+  (e: 'emailExists')
 }>()
 
 const isFocused = ref(false)
@@ -36,6 +37,10 @@ const inputClasses = computed(() => {
   }
   return 'border-grayScale-2'
 })
+
+function emailExists() {
+  emit('emailExists')
+}
 </script>
 
 <template>
@@ -59,8 +64,16 @@ const inputClasses = computed(() => {
       ]"
     />
 
-    <p v-if="error" class="text-danger-2 text-xs font-sans">
-      {{ error }}
+    <p v-if="error" class="text-danger-2 text-sm font-sans">
+      <span v-if="error != 'Este e-mail já está sendo usado.'">
+        {{ error }}
+      </span>
+      <span v-else class="flex space-x-1">
+        <span>{{ error }}</span>
+        <a class="text-primary-2" href="#" @click.prevent="emailExists"
+          >Sou eu, entrar com este e-mail</a
+        >
+      </span>
     </p>
   </div>
 </template>

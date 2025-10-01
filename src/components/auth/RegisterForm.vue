@@ -1,50 +1,80 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import Input from '@/components/forms/Input.vue'
 import Button from '@/components/forms/Button.vue'
 import { useAuthStore } from '@/stores/auth.ts'
 
-const open = ref(false)
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const loading = ref(false)
 const errorMessage = ref('')
+const errors = ref<Record<string, string[]>>({})
 
 const auth = useAuthStore()
 
-async function handleLogin() {
+const emit = defineEmits<{
+  (e: 'emailExists', value: string)
+}>()
+
+async function handleRegister() {
   loading.value = true
   errorMessage.value = ''
+  errors.value = {}
+
   try {
-    await auth.login(email.value, password.value)
+    await auth.register(name.value, email.value, password.value)
     open.value = false // fecha modal
   } catch (err: any) {
+    errorMessage.value = err.response?.data?.message || 'Erro ao cadastrar'
     errorMessage.value = err.response?.data?.message || 'Erro ao entrar'
+    errors.value = err.response?.data?.errors || {}
   } finally {
     loading.value = false
   }
 }
+
+function emailExists() {
+  emit('emailExists', email.value)
+}
 </script>
 
 <template>
-  <div class="w-full">
+  <form @submit.prevent="handleRegister" class="w-full">
     <!-- Inputs -->
     <div class="flex flex-col gap-4">
-      <Input v-model="name" label="Nome completo" placeholder="Digite seu nome completo" />
-      <Input v-model="email" type="email" label="E-mail" placeholder="exemplo@gmail.com" />
-      <Input v-model="password" label="Senha" placeholder="Digite sua senha" type="password" />
+      <Input
+        v-model="name"
+        label="Nome completo"
+        placeholder="Digite seu nome completo"
+        :error="errors.name?.[0]"
+      />
+      <Input
+        v-model="email"
+        type="email"
+        label="E-mail"
+        placeholder="exemplo@gmail.com"
+        :error="errors.email?.[0]"
+        @email-exists="emailExists"
+      />
+      <Input
+        v-model="password"
+        label="Senha"
+        placeholder="Digite sua senha"
+        type="password"
+        :error="errors.password?.[0]"
+      />
       <p v-if="errorMessage" class="text-danger-2 text-sm">{{ errorMessage }}</p>
     </div>
 
     <!-- Footer -->
     <div class="flex flex-col w-full pt-8 pb-4">
       <!-- Botão Entrar -->
-      <Button class="w-full mb-4" :disabled="loading" @click="handleLogin" size="big">
+      <Button type="submit" class="w-full mb-4" :disabled="loading" size="big">
         {{ loading ? 'Criando...' : 'Criar conta' }}
       </Button>
     </div>
-  </div>
+  </form>
 </template>
 
 <style scoped></style>

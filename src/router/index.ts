@@ -18,7 +18,7 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const auth = useAuthStore()
         if (!auth.isAuthenticated) {
-          next('/') // volta pra home se não logado
+          next('/')
         } else {
           next()
         }

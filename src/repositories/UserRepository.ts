@@ -6,13 +6,8 @@ export default {
     return data
   },
 
-  async getProfile() {
-    const { data } = await api.get('/user/profile')
-    return data
-  },
-
-  async updateProfile(payload: { name: string; email: string }) {
-    const { data } = await api.put('/user/profile', payload)
+  async register(payload: { name: string; email: string; password: string }) {
+    const { data } = await api.post('/register', payload)
     return data
   },
 

@@ -23,9 +23,11 @@ export const useAuthStore = defineStore('auth', {
       this.user = user
       localStorage.setItem('token', token)
     },
-    async fetchUser() {
-      if (!this.token) return
-      this.user = await UserRepository.getProfile()
+    async register(name: string, email: string, password: string) {
+      const { token, user } = await UserRepository.register({ name, email, password })
+      this.token = token
+      this.user = user
+      localStorage.setItem('token', token)
     },
     logout() {
       this.token = null

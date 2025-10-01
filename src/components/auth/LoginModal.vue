@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
 import Modal from '@/components/layouts/Modal.vue'
 import Button from '@/components/forms/Button.vue'
 import AuthForm from '@/components/auth/AuthForm.vue'
@@ -8,24 +7,11 @@ import RegisterForm from '@/components/auth/RegisterForm.vue'
 
 const open = ref(false)
 const formCreate = ref<boolean>(false)
-const email = ref('')
-const password = ref('')
-const loading = ref(false)
-const errorMessage = ref('')
+const emailExists = ref<string>('')
 
-const auth = useAuthStore()
-
-async function handleLogin() {
-  loading.value = true
-  errorMessage.value = ''
-  try {
-    await auth.login(email.value, password.value)
-    open.value = false // fecha modal
-  } catch (err: any) {
-    errorMessage.value = err.response?.data?.message || 'Erro ao entrar'
-  } finally {
-    loading.value = false
-  }
+function hasEmail(email) {
+  emailExists.value = email
+  formCreate.value = false
 }
 </script>
 
@@ -37,8 +23,8 @@ async function handleLogin() {
     :title="formCreate ? 'Crie sua conta' : 'Entre na sua conta'"
     @close="open = false"
   >
-    <RegisterForm v-if="formCreate" />
-    <AuthForm v-else />
+    <RegisterForm v-if="formCreate" @email-exists="hasEmail" />
+    <AuthForm v-else :email-exists="emailExists" />
 
     <p
       v-if="formCreate"

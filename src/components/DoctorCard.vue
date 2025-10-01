@@ -76,7 +76,6 @@ function closeModal() {
         </div>
       </div>
 
-      <!-- Carrossel -->
       <div class="flex-1 order-2">
         <ScheduleCarousel
           :doctor="doctor"

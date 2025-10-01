@@ -15,16 +15,13 @@ const props = withDefaults(defineProps<Props>(), {
   type: 'button',
 })
 
-// classes base
 const baseClasses =
   'inline-flex items-center justify-center font-sans font-semibold rounded transition-colors cursor-pointer duration-200'
 
-// tamanhos
 const sizeClasses = computed(() => {
   return props.size === 'big' ? 'px-6 py-3 text-[16px]' : 'px-4 py-2 text-[14px]'
 })
 
-// variantes de cor
 const variantClasses = computed(() => {
   if (props.variant === 'primary') {
     return props.disabled

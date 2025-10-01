@@ -42,17 +42,8 @@ watch(
   },
 )
 
-/*watch(
-  () => props.appointment,
-  (value) => {
-    if (Object.entries(value).length !== 0) {
-    }
-  },
-)*/
-
 onMounted(() => {
   open.value = props.show
-  console.log('appointment ===> ', props.appointment)
 })
 
 async function handleSchedule() {
