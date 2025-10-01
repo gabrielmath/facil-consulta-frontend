@@ -1,39 +1,65 @@
-# facil-consulta-frontend
+# 📅 Fácil Consulta - Agendamento Simplificado
 
-This template should help get you started developing with Vue 3 in Vite.
+Este projeto foi desenvolvido como parte de um teste técnico com o objetivo de **simular um sistema simples de
+agendamento de consultas médicas**.
 
-## Recommended IDE Setup
+## 🎯 Finalidade do Projeto
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+A aplicação permite que pacientes visualizem médicos disponíveis e agendem consultas nos horários livres da agenda de
+cada médico.  
+Além disso, o usuário autenticado conta com uma **tela de perfil**, onde é possível consultar:
 
-## Type Support for `.vue` Imports in TS
+- 📌 **Consultas agendadas** (próximas consultas);
+- ✅ **Consultas realizadas** (histórico).
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+O foco do sistema é oferecer uma interface simples e responsiva, garantindo uma experiência clara para pacientes ao
+acessar as agendas médicas disponíveis.
 
-## Customize configuration
+---
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## ⚙️ Ambiente de Desenvolvimento Utilizado no Teste
 
-## Project Setup
+- **Sistema operacional**: Ubuntu rodando no **WSL2**
+- **Gerenciador de versão de Node**: [nvm](https://github.com/nvm-sh/nvm)
+- **Versão do Node utilizada**: `v22.13.1`
+- **Build tool**: [Vite](https://vitejs.dev/)
+- **Frameworks**:
+    - [Vue 3](https://vuejs.org/) com Composition API e TypeScript
+    - [Tailwind CSS v4](https://tailwindcss.com/) para estilização
+    - [Pinia](https://pinia.vuejs.org/) para gerenciamento de estado
+    - [Axios](https://axios-http.com/) para integração com a API
 
-```sh
+---
+
+## 🎨 Layout
+
+O layout utilizado neste projeto está disponível no Figma no link abaixo:
+
+- [Teste Fácil Consulta - Layout a ser implementado - Figma](https://www.figma.com/design/E3HHElYDdrRSfgjyXWiVqT/Projeto-teste?node-id=0-1&t=oZEscbOZarL4cdOo-1)
+
+---
+
+## 🚀 Como rodar o projeto
+
+1. **Clonar o repositório**
+   ```bash
+   git clone <url-do-repositorio>
+   cd facil-consulta-frontend
+   ```
+2. Instalar dependências
+
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+3. Rodar em ambiente de desenvolvimento
 
-```sh
+```bash 
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+4. Build para produção
 
-```sh
+```bash
 npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
 ```
