@@ -15,6 +15,7 @@ const auth = useAuthStore()
 
 const emit = defineEmits<{
   (e: 'emailExists', value: string)
+  (e: 'closeModal')
 }>()
 
 async function handleRegister() {
@@ -24,10 +25,9 @@ async function handleRegister() {
 
   try {
     await auth.register(name.value, email.value, password.value)
-    open.value = false // fecha modal
+    emit('closeModal')
   } catch (err: any) {
     errorMessage.value = err.response?.data?.message || 'Erro ao cadastrar'
-    errorMessage.value = err.response?.data?.message || 'Erro ao entrar'
     errors.value = err.response?.data?.errors || {}
   } finally {
     loading.value = false
@@ -64,7 +64,6 @@ function emailExists() {
         type="password"
         :error="errors.password?.[0]"
       />
-      <p v-if="errorMessage" class="text-danger-2 text-sm">{{ errorMessage }}</p>
     </div>
 
     <!-- Footer -->

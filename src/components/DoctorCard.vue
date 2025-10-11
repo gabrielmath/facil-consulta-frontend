@@ -5,17 +5,13 @@ import { Icon } from '@iconify/vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import { storeToRefs } from 'pinia'
 import NewAppointmentModal from '@/components/appointments/NewAppointmentModal.vue'
-import Modal from '@/components/layouts/Modal.vue'
-import Button from '@/components/forms/Button.vue'
-import RegisterForm from '@/components/auth/RegisterForm.vue'
-import AuthForm from '@/components/auth/AuthForm.vue'
+import LoginModal from '@/components/auth/LoginModal.vue'
 
 const authStore = useAuthStore()
 const { isAuthenticated } = storeToRefs(authStore)
 const doctor = ref<object>({})
 const newAppointment = ref<null | object>({})
 const openModal = ref<boolean>(false)
-const formCreate = ref<boolean>(false)
 
 interface Props {
   id: number
@@ -40,10 +36,6 @@ onMounted(() => {
     full_address: props.address,
   }
 })
-
-/*const emit = defineEmits<{
-  (e: 'newAppointment', appointment: object)
-}>()*/
 
 function dataAppointment(appointment: object) {
   newAppointment.value = { ...appointment }
@@ -93,28 +85,5 @@ function closeModal() {
     :show="openModal"
   />
 
-  <Modal
-    v-else
-    :show="openModal"
-    :title="formCreate ? 'Crie sua conta' : 'Entre na sua conta'"
-    @close="closeModal"
-  >
-    <RegisterForm v-if="formCreate" />
-    <AuthForm v-else />
-
-    <p
-      v-if="formCreate"
-      class="flex justify-center items-center space-x-2 text-grayScale-3 pt-6 text-center border-t border-t-grayScale-1"
-    >
-      <span>Já tem uma conta?</span>
-      <Button variant="secondary" @click="formCreate = false"> Entrar na conta</Button>
-    </p>
-    <p
-      v-else
-      class="flex justify-center items-center space-x-2 text-grayScale-3 pt-6 text-center border-t border-t-grayScale-1"
-    >
-      <span>Não tem uma conta?</span>
-      <Button variant="secondary" @click="formCreate = true"> Criar uma conta</Button>
-    </p>
-  </Modal>
+  <LoginModal :open="openModal" @close-modal="closeModal" />
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, onMounted, ref, watch } from 'vue'
+import { defineProps, onMounted, ref, watch, defineEmits } from 'vue'
 import Input from '@/components/forms/Input.vue'
 import Button from '@/components/forms/Button.vue'
 import { useAuthStore } from '@/stores/auth.ts'
@@ -9,6 +9,7 @@ const password = ref('')
 const loading = ref(false)
 const errorMessage = ref('')
 const errors = ref<Record<string, string[]>>({})
+const typeError = ref<null | string>(null)
 
 const auth = useAuthStore()
 
@@ -19,6 +20,10 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   emailExists: '',
 })
+
+const emit = defineEmits<{
+  (e: 'closeModal')
+}>()
 
 onMounted(() => {
   email.value = props.emailExists
@@ -38,9 +43,10 @@ async function handleLogin() {
 
   try {
     await auth.login(email.value, password.value)
-    open.value = false // fecha modal
+    emit('closeModal')
   } catch (err: any) {
     errorMessage.value = err.response?.data?.message || 'Erro ao entrar'
+    typeError.value = err.response?.data?.typeError || null
     errors.value = err.response?.data?.errors || {}
   } finally {
     loading.value = false
@@ -65,6 +71,9 @@ async function handleLogin() {
         type="password"
         :error="errors.password?.[0]"
       />
+      <span v-if="typeError" class="text-sm text-danger-3 -mt-4">
+        {{ errorMessage }}
+      </span>
     </div>
 
     <!-- Footer -->

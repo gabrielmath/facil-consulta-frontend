@@ -36,6 +36,12 @@ const emit = defineEmits<{
 
 const currentIndex = ref(0)
 
+function parseLocalDate(dateString: string): Date {
+  const [year, month, day] = dateString.split('-').map(Number)
+  // new Date(ano, mêsIndexado, dia) — o mês começa do 0
+  return new Date(year, month - 1, day)
+}
+
 // gera a lista de dias a partir de amanhã
 const generatedDays = computed(() => {
   const tomorrow = new Date()
@@ -46,9 +52,8 @@ const generatedDays = computed(() => {
     const d = new Date(tomorrow) // clona
     d.setDate(tomorrow.getDate() + i)
 
-    const localDate = new Intl.DateTimeFormat('sv-SE', {
-      timeZone: 'America/Sao_Paulo',
-    }).format(d)
+    const localDate = d.toISOString().split('T')[0]
+
     result.push({
       date: localDate,
       slots: props.schedules[localDate] ?? [],
@@ -135,7 +140,7 @@ function getDateFromClick(doctor_schedule_id: number, date: string, time: string
               i === 0 && currentIndex === 0
                 ? 'Amanhã'
                 : ucFirst(
-                    new Date(day.date)
+                    parseLocalDate(day.date)
                       .toLocaleDateString('pt-BR', { weekday: 'short' })
                       .replace('.', ''),
                   )
@@ -145,7 +150,7 @@ function getDateFromClick(doctor_schedule_id: number, date: string, time: string
           <!-- Data -->
           <span class="font-sans font-semibold text-grayScale-4 text-base">
             {{
-              new Date(day.date).toLocaleDateString('pt-BR', {
+              parseLocalDate(day.date).toLocaleDateString('pt-BR', {
                 day: '2-digit',
                 month: '2-digit',
               })

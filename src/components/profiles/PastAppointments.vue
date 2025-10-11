@@ -25,25 +25,28 @@ const getListAppointments = async () => {
       <Icon icon="mdi:calendar-repeat" class="w-7 h-7" />
       <h2>Consultas anteriores</h2>
     </header>
-    <div
-      v-for="appointment in appointments"
-      :key="appointment.id"
-      class="py-4 border-t first:border-t-2 border-t-grayScale-1 flex justify-between items-center"
-    >
-      <div>
-        <h2>{{ appointment.doctor.name }}</h2>
-        <p class="text-grayScale-3 font-semibold">{{ appointment.doctor.specialty }}</p>
-        <p class="text-grayScale-3 text-sm flex items-center gap-1">
-          <Icon icon="mdi:map-marker" class="w-4 h-4 text-grayScale-2" />
-          {{ appointment.doctor.full_address }}
-        </p>
-      </div>
-      <div class="text-sm text-grayScale-3">
-        Realizada em <br />
-        <span class="font-medium"
-          >{{ appointment.schedule.date }} às {{ appointment.schedule.time }}</span
-        >
+    <div v-if="appointments.length > 0" class="w-full">
+      <div
+        v-for="appointment in appointments"
+        :key="appointment.id"
+        class="py-4 border-t first:border-t-2 border-t-grayScale-1 flex justify-between items-center"
+      >
+        <div class="flex flex-col space-y-0.5">
+          <h2>{{ appointment.doctor.name }}</h2>
+          <p class="text-grayScale-3 font-semibold">{{ appointment.doctor.specialty }}</p>
+          <p class="text-grayScale-3 text-sm flex items-center gap-1">
+            <Icon icon="mdi:map-marker" class="w-4 h-4 text-grayScale-2" />
+            {{ appointment.doctor.full_address }}
+          </p>
+        </div>
+        <div class="text-sm text-grayScale-3">
+          Realizada em <br />
+          <span class="font-medium"
+            >{{ appointment.schedule.date }} às {{ appointment.schedule.time }}</span
+          >
+        </div>
       </div>
     </div>
+    <div v-else class="w-full">Você ainda não passou por nenhuma consulta!</div>
   </section>
 </template>

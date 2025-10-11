@@ -16,7 +16,10 @@ defineEmits<{
         <h2>
           {{ title }}
         </h2>
-        <button @click="$emit('close')" class="text-grayScale-3 hover:text-grayScale-4 text-xl">
+        <button
+          @click="$emit('close')"
+          class="text-grayScale-3 hover:text-grayScale-4 text-xl cursor-pointer"
+        >
           &times;
         </button>
       </header>
